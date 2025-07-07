@@ -1,0 +1,138 @@
+# KubeNetLLM Configuration
+version: "1.0"
+
+# LLM Provider Configuration
+llm:
+  providers:
+    openai:
+      model: "gpt-4"
+      api_key_env: "OPENAI_API_KEY"
+      max_tokens: 4096
+      temperature: 0.1
+    anthropic:
+      model: "claude-3-sonnet-20240229"
+      api_key_env: "ANTHROPIC_API_KEY"
+      max_tokens: 4096
+      temperature: 0.1
+    ollama:
+      model: "llama2:7b"
+      host: "http://localhost:11434"
+      max_tokens: 4096
+      temperature: 0.1
+  
+  # Free LLM Providers (No API keys required or free tiers)
+  free_providers:
+    ollama:
+      model: "llama3.2:3b"
+      base_url: "http://localhost:11434"
+      max_tokens: 4096
+      temperature: 0.1
+      top_p: 0.9
+    groq:
+      model: "llama3-8b-8192"
+      api_key: ""  # Set via GROQ_API_KEY env var
+      max_tokens: 4096
+      temperature: 0.1
+    huggingface:
+      model: "microsoft/DialoGPT-large"
+      api_key: ""  # Set via HUGGINGFACE_API_KEY env var
+      max_tokens: 1000
+      temperature: 0.1
+    localai:
+      model: "gpt-3.5-turbo"
+      base_url: "http://localhost:8080"
+      max_tokens: 4096
+      temperature: 0.1
+  
+  # Default provider for experiments - now supports free providers
+  default_provider: "free"  # Changed to use free providers
+  preferred_free_provider: "ollama"  # Preference order
+
+# MCP Configuration
+mcp:
+  broker:
+    host: "localhost"
+    port: 8080
+    websocket_port: 8081
+  
+  tools:
+    kubernetes_api:
+      enabled: true
+      config_path: "~/.kube/config"
+    
+    security_scanner:
+      enabled: true
+      type: "kubesec"
+    
+    policy_engine:
+      enabled: true
+      type: "opa"
+    
+    knowledge_base:
+      enabled: true
+      path: "data/knowledge_base"
+
+# Kubernetes Configuration
+kubernetes:
+  context: "kind-kubenet-test"
+  namespace: "default"
+  
+  # Kind cluster configuration
+  kind:
+    cluster_name: "kubenet-test"
+    config_path: "config/kind-config.yaml"
+    
+  # Resource limits for testing
+  resource_limits:
+    cpu: "2000m"
+    memory: "4Gi"
+
+# Validation Configuration
+validation:
+  levels:
+    - syntactic
+    - semantic
+    - security
+    - best_practices
+  
+  security:
+    enforce_network_policies: true
+    require_tls: true
+    check_rbac: true
+    scan_vulnerabilities: true
+  
+  best_practices:
+    resource_limits: true
+    health_checks: true
+    pod_security_standards: true
+
+# Experimental Configuration
+experiments:
+  scenarios:
+    - simple_web_app
+    - microservices_mesh
+    - multi_environment
+    - security_focused
+    - edge_cases
+  
+  metrics:
+    generation_time: true
+    api_calls: true
+    token_usage: true
+    validation_pass_rate: true
+    resource_utilization: true
+  
+  output_dir: "experiments/results"
+  log_level: "INFO"
+
+# Deployment Configuration
+deployment:
+  dry_run: true
+  progressive: true
+  rollback_enabled: true
+  
+  safety_checks:
+    - resource_quotas
+    - network_policies
+    - security_contexts
+    - service_accounts 

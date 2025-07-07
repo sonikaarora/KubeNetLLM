@@ -1,0 +1,277 @@
+[
+  {
+    "scenario": "Simple Web App",
+    "success": true,
+    "generation_time": 5.79459285736084,
+    "validation_time": 1.5020370483398438e-05,
+    "conversion_time": 4.0531158447265625e-06,
+    "deployment_time": 0.6097512245178223,
+    "total_time": 6.40436315536499,
+    "api_calls": 1,
+    "tokens_used": 570,
+    "prompt_tokens": 160,
+    "completion_tokens": 410,
+    "resources_deployed": 2,
+    "validation_results": {
+      "syntactic_errors": [],
+      "semantic_errors": [],
+      "security_warnings": [
+        "Using 'latest' tag is not recommended",
+        "Consider adding pod security policies",
+        "Consider using service mesh for secure communication"
+      ],
+      "best_practice_recommendations": [
+        "Consider using multiple replicas for high availability",
+        "Consider using horizontal pod autoscaling",
+        "Consider adding monitoring and alerting"
+      ],
+      "total_errors": 0,
+      "total_warnings": 3,
+      "total_recommendations": 3,
+      "pass_rate": 100.0
+    },
+    "deployment_result": {
+      "success": true,
+      "deployed_resources": [
+        {
+          "name": "my-web-app",
+          "kind": "Deployment",
+          "success": true
+        },
+        {
+          "name": "my-web-app-service",
+          "kind": "Service",
+          "success": true
+        }
+      ],
+      "deployment_time": 0.6097452640533447,
+      "errors": []
+    },
+    "resource_utilization": {
+      "cpu_percent_before": 47.5,
+      "cpu_percent_after": 54.9,
+      "memory_percent_before": 63.1,
+      "memory_percent_after": 63.4,
+      "memory_used_mb_before": 29444.03125,
+      "memory_used_mb_after": 29678.59375
+    }
+  },
+  {
+    "scenario": "Microservices",
+    "success": true,
+    "generation_time": 16.230396032333374,
+    "validation_time": 1.4781951904296875e-05,
+    "conversion_time": 3.0994415283203125e-06,
+    "deployment_time": 0.5887999534606934,
+    "total_time": 16.8192138671875,
+    "api_calls": 1,
+    "tokens_used": 250,
+    "prompt_tokens": 150,
+    "completion_tokens": 100,
+    "resources_deployed": 2,
+    "validation_results": {
+      "syntactic_errors": [],
+      "semantic_errors": [],
+      "security_warnings": [
+        "Using 'latest' tag is not recommended",
+        "Consider adding network policies"
+      ],
+      "best_practice_recommendations": [
+        "Consider using multiple replicas for high availability",
+        "Consider using health checks"
+      ],
+      "total_errors": 0,
+      "total_warnings": 2,
+      "total_recommendations": 2,
+      "pass_rate": 100.0
+    },
+    "deployment_result": {
+      "success": true,
+      "deployed_resources": [
+        {
+          "name": "microservices",
+          "kind": "Deployment",
+          "success": true
+        },
+        {
+          "name": "microservices-service",
+          "kind": "Service",
+          "success": true
+        }
+      ],
+      "deployment_time": 0.5887918472290039,
+      "errors": []
+    },
+    "resource_utilization": {
+      "cpu_percent_before": 38.2,
+      "cpu_percent_after": 49.3,
+      "memory_percent_before": 63.1,
+      "memory_percent_after": 63.4,
+      "memory_used_mb_before": 29467.5625,
+      "memory_used_mb_after": 29653.421875
+    }
+  },
+  {
+    "scenario": "Multi-Environment",
+    "success": true,
+    "generation_time": 10.346702098846436,
+    "validation_time": 1.71661376953125e-05,
+    "conversion_time": 4.76837158203125e-06,
+    "deployment_time": 0.6520891189575195,
+    "total_time": 10.998813152313232,
+    "api_calls": 1,
+    "tokens_used": 250,
+    "prompt_tokens": 150,
+    "completion_tokens": 100,
+    "resources_deployed": 2,
+    "validation_results": {
+      "syntactic_errors": [],
+      "semantic_errors": [],
+      "security_warnings": [
+        "Using 'latest' tag is not recommended"
+      ],
+      "best_practice_recommendations": [
+        "Consider using multiple replicas for high availability"
+      ],
+      "total_errors": 0,
+      "total_warnings": 1,
+      "total_recommendations": 1,
+      "pass_rate": 100.0
+    },
+    "deployment_result": {
+      "success": true,
+      "deployed_resources": [
+        {
+          "name": "multi-environment",
+          "kind": "Deployment",
+          "success": true
+        },
+        {
+          "name": "multi-environment-service",
+          "kind": "Service",
+          "success": true
+        }
+      ],
+      "deployment_time": 0.6520838737487793,
+      "errors": []
+    },
+    "resource_utilization": {
+      "cpu_percent_before": 45.5,
+      "cpu_percent_after": 45.0,
+      "memory_percent_before": 63.2,
+      "memory_percent_after": 63.4,
+      "memory_used_mb_before": 29528.640625,
+      "memory_used_mb_after": 29674.46875
+    }
+  },
+  {
+    "scenario": "Security-Focused",
+    "success": true,
+    "generation_time": 10.627003192901611,
+    "validation_time": 1.0967254638671875e-05,
+    "conversion_time": 5.9604644775390625e-06,
+    "deployment_time": 0.5876510143280029,
+    "total_time": 11.21467113494873,
+    "api_calls": 1,
+    "tokens_used": 909,
+    "prompt_tokens": 159,
+    "completion_tokens": 750,
+    "resources_deployed": 2,
+    "validation_results": {
+      "syntactic_errors": [],
+      "semantic_errors": [],
+      "security_warnings": [
+        "Using 'latest' tag is not recommended",
+        "Consider adding network policies"
+      ],
+      "best_practice_recommendations": [
+        "Consider using multiple replicas for high availability",
+        "Consider using health checks"
+      ],
+      "total_errors": 0,
+      "total_warnings": 2,
+      "total_recommendations": 2,
+      "pass_rate": 100.0
+    },
+    "deployment_result": {
+      "success": true,
+      "deployed_resources": [
+        {
+          "name": "example-app",
+          "kind": "Deployment",
+          "success": true
+        },
+        {
+          "name": "example-app-service",
+          "kind": "Service",
+          "success": true
+        }
+      ],
+      "deployment_time": 0.587637186050415,
+      "errors": []
+    },
+    "resource_utilization": {
+      "cpu_percent_before": 36.2,
+      "cpu_percent_after": 44.3,
+      "memory_percent_before": 63.1,
+      "memory_percent_after": 63.3,
+      "memory_used_mb_before": 29476.703125,
+      "memory_used_mb_after": 29610.15625
+    }
+  },
+  {
+    "scenario": "Edge Cases",
+    "success": true,
+    "generation_time": 9.741744041442871,
+    "validation_time": 1.1920928955078125e-05,
+    "conversion_time": 5.0067901611328125e-06,
+    "deployment_time": 0.5985031127929688,
+    "total_time": 10.340264081954956,
+    "api_calls": 1,
+    "tokens_used": 830,
+    "prompt_tokens": 161,
+    "completion_tokens": 669,
+    "resources_deployed": 2,
+    "validation_results": {
+      "syntactic_errors": [],
+      "semantic_errors": [],
+      "security_warnings": [
+        "Using 'latest' tag is not recommended",
+        "Consider adding network policies"
+      ],
+      "best_practice_recommendations": [
+        "Consider using multiple replicas for high availability",
+        "Consider using health checks"
+      ],
+      "total_errors": 0,
+      "total_warnings": 2,
+      "total_recommendations": 2,
+      "pass_rate": 100.0
+    },
+    "deployment_result": {
+      "success": true,
+      "deployed_resources": [
+        {
+          "name": "edge-cases-app",
+          "kind": "Deployment",
+          "success": true
+        },
+        {
+          "name": "edge-cases-app-service",
+          "kind": "Service",
+          "success": true
+        }
+      ],
+      "deployment_time": 0.5984959602355957,
+      "errors": []
+    },
+    "resource_utilization": {
+      "cpu_percent_before": 33.1,
+      "cpu_percent_after": 41.6,
+      "memory_percent_before": 63.2,
+      "memory_percent_after": 63.4,
+      "memory_used_mb_before": 29508.9375,
+      "memory_used_mb_after": 29655.203125
+    }
+  }
+]
