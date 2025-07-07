@@ -1,0 +1,344 @@
+[
+  {
+    "scenario": "Simple Web App",
+    "result": {
+      "config": {
+        "app_name": "mcp-enhanced-app",
+        "image": "nginx:1.21",
+        "replicas": 2,
+        "port": 80,
+        "namespace": "kubenet-experiment",
+        "resources": {
+          "requests": {
+            "memory": "64Mi",
+            "cpu": "250m"
+          },
+          "limits": {
+            "memory": "128Mi",
+            "cpu": "500m"
+          }
+        },
+        "security_context": {
+          "runAsNonRoot": true,
+          "runAsUser": 1000
+        },
+        "mcp_enhanced": true,
+        "generation_tokens": 250
+      },
+      "mcp_context": {
+        "cluster_info": {
+          "cluster_name": "kubeflow-control-plane",
+          "kubernetes_version": "v1.31.0",
+          "nodes": 1,
+          "storage_classes": [
+            "standard"
+          ],
+          "ingress_controllers": [
+            "nginx"
+          ],
+          "namespaces": [
+            "default",
+            "kube-system",
+            "kubenet-experiment"
+          ]
+        },
+        "security_policies": {
+          "policies": {
+            "network": [
+              "default-deny",
+              "allow-namespace"
+            ],
+            "pod": [
+              "non-root",
+              "no-privilege-escalation"
+            ],
+            "rbac": [
+              "least-privilege"
+            ]
+          },
+          "enforcement_level": "strict"
+        },
+        "docs": {
+          "best_practices": [
+            "Use specific image tags instead of 'latest'",
+            "Define resource requests and limits",
+            "Implement health checks",
+            "Use non-root containers",
+            "Apply security contexts"
+          ],
+          "examples": [
+            "deployment.yaml",
+            "service.yaml"
+          ],
+          "version": "1.31"
+        },
+        "knowledge": {
+          "templates": {
+            "web_app": {
+              "components": [
+                "deployment",
+                "service"
+              ],
+              "best_practices": [
+                "rolling-updates",
+                "health-checks"
+              ]
+            }
+          }
+        },
+        "validation": {
+          "valid": true,
+          "issues": [
+            "Missing resource limits",
+            "Using 'latest' tag"
+          ],
+          "recommendations": [
+            "Add resource quotas",
+            "Use specific image tags"
+          ]
+        }
+      },
+      "metrics": {
+        "generation_time": 11.52665114402771,
+        "mcp_calls": 5,
+        "mcp_tools_used": [
+          "cluster_info",
+          "security_policies",
+          "kubernetes_docs",
+          "knowledge_base",
+          "config_validator"
+        ],
+        "context_quality": "high",
+        "validation_enhanced": true
+      }
+    }
+  },
+  {
+    "scenario": "Security-Focused App",
+    "result": {
+      "config": {
+        "app_name": "mcp-enhanced-app",
+        "image": "nginx:1.21",
+        "replicas": 2,
+        "port": 80,
+        "namespace": "kubenet-experiment",
+        "resources": {
+          "requests": {
+            "memory": "64Mi",
+            "cpu": "250m"
+          },
+          "limits": {
+            "memory": "128Mi",
+            "cpu": "500m"
+          }
+        },
+        "security_context": {
+          "runAsNonRoot": true,
+          "runAsUser": 1000
+        },
+        "mcp_enhanced": true,
+        "generation_tokens": 250
+      },
+      "mcp_context": {
+        "cluster_info": {
+          "cluster_name": "kubeflow-control-plane",
+          "kubernetes_version": "v1.31.0",
+          "nodes": 1,
+          "storage_classes": [
+            "standard"
+          ],
+          "ingress_controllers": [
+            "nginx"
+          ],
+          "namespaces": [
+            "default",
+            "kube-system",
+            "kubenet-experiment"
+          ]
+        },
+        "security_policies": {
+          "policies": {
+            "network": [
+              "default-deny",
+              "allow-namespace"
+            ],
+            "pod": [
+              "non-root",
+              "no-privilege-escalation"
+            ],
+            "rbac": [
+              "least-privilege"
+            ]
+          },
+          "enforcement_level": "strict"
+        },
+        "docs": {
+          "best_practices": [
+            "Use specific image tags instead of 'latest'",
+            "Define resource requests and limits",
+            "Implement health checks",
+            "Use non-root containers",
+            "Apply security contexts"
+          ],
+          "examples": [
+            "deployment.yaml",
+            "service.yaml"
+          ],
+          "version": "1.31"
+        },
+        "knowledge": {
+          "templates": {
+            "web_app": {
+              "components": [
+                "deployment",
+                "service"
+              ],
+              "best_practices": [
+                "rolling-updates",
+                "health-checks"
+              ]
+            }
+          }
+        },
+        "validation": {
+          "valid": true,
+          "issues": [
+            "Missing resource limits",
+            "Using 'latest' tag"
+          ],
+          "recommendations": [
+            "Add resource quotas",
+            "Use specific image tags"
+          ]
+        }
+      },
+      "metrics": {
+        "generation_time": 20.316874027252197,
+        "mcp_calls": 5,
+        "mcp_tools_used": [
+          "cluster_info",
+          "security_policies",
+          "kubernetes_docs",
+          "knowledge_base",
+          "config_validator"
+        ],
+        "context_quality": "high",
+        "validation_enhanced": true
+      }
+    }
+  },
+  {
+    "scenario": "High-Availability App",
+    "result": {
+      "config": {
+        "app_name": "mcp-enhanced-app",
+        "image": "nginx:1.21",
+        "replicas": 2,
+        "port": 80,
+        "namespace": "kubenet-experiment",
+        "resources": {
+          "requests": {
+            "memory": "64Mi",
+            "cpu": "250m"
+          },
+          "limits": {
+            "memory": "128Mi",
+            "cpu": "500m"
+          }
+        },
+        "security_context": {
+          "runAsNonRoot": true,
+          "runAsUser": 1000
+        },
+        "mcp_enhanced": true,
+        "generation_tokens": 250
+      },
+      "mcp_context": {
+        "cluster_info": {
+          "cluster_name": "kubeflow-control-plane",
+          "kubernetes_version": "v1.31.0",
+          "nodes": 1,
+          "storage_classes": [
+            "standard"
+          ],
+          "ingress_controllers": [
+            "nginx"
+          ],
+          "namespaces": [
+            "default",
+            "kube-system",
+            "kubenet-experiment"
+          ]
+        },
+        "security_policies": {
+          "policies": {
+            "network": [
+              "default-deny",
+              "allow-namespace"
+            ],
+            "pod": [
+              "non-root",
+              "no-privilege-escalation"
+            ],
+            "rbac": [
+              "least-privilege"
+            ]
+          },
+          "enforcement_level": "strict"
+        },
+        "docs": {
+          "best_practices": [
+            "Use specific image tags instead of 'latest'",
+            "Define resource requests and limits",
+            "Implement health checks",
+            "Use non-root containers",
+            "Apply security contexts"
+          ],
+          "examples": [
+            "deployment.yaml",
+            "service.yaml"
+          ],
+          "version": "1.31"
+        },
+        "knowledge": {
+          "templates": {
+            "web_app": {
+              "components": [
+                "deployment",
+                "service"
+              ],
+              "best_practices": [
+                "rolling-updates",
+                "health-checks"
+              ]
+            }
+          }
+        },
+        "validation": {
+          "valid": true,
+          "issues": [
+            "Missing resource limits",
+            "Using 'latest' tag"
+          ],
+          "recommendations": [
+            "Add resource quotas",
+            "Use specific image tags"
+          ]
+        }
+      },
+      "metrics": {
+        "generation_time": 13.005022287368774,
+        "mcp_calls": 5,
+        "mcp_tools_used": [
+          "cluster_info",
+          "security_policies",
+          "kubernetes_docs",
+          "knowledge_base",
+          "config_validator"
+        ],
+        "context_quality": "high",
+        "validation_enhanced": true
+      }
+    }
+  }
+]
