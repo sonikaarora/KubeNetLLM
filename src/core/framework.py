@@ -60,19 +60,36 @@ class KubeNetLLMFramework:
     4. Intelligent Deployment Manager
     """
 
-    def __init__(self, config_path: str = "config/config.yaml"):
+    def __init__(self, config_path: str = "config/config.yaml", framework_config: Optional[Dict[str, Any]] = None):
         """
         Initialize the KubeNetLLM framework.
         
         Args:
             config_path: Path to the configuration file
+            framework_config: Direct configuration dictionary (alternative to config_path)
         """
-        self.config = ConfigManager(config_path)
-        self.logger = structlog.get_logger(__name__)
-        self.metrics = MetricsCollector()
+        if framework_config:
+            # Use direct configuration
+            self.config = framework_config
+            self.logger = structlog.get_logger(__name__)
+            self.metrics = MetricsCollector()
+            
+            # Initialize components with provided configuration
+            self.mcp_broker: Optional[MCPBroker] = framework_config.get("mcp_broker")
+            self.llm_provider = framework_config.get("llm_provider")
+            self.deployment_namespace = framework_config.get("deployment_namespace", "default")
+            
+        else:
+            # Use config file
+            self.config = ConfigManager(config_path)
+            self.logger = structlog.get_logger(__name__)
+            self.metrics = MetricsCollector()
+            
+            # Initialize components
+            self.mcp_broker: Optional[MCPBroker] = None
+            self.llm_provider = None
+            self.deployment_namespace = "default"
         
-        # Initialize components
-        self.mcp_broker: Optional[MCPBroker] = None
         self.nl_interface: Optional[NaturalLanguageInterface] = None
         self.config_generator: Optional[ConfigurationGenerator] = None
         self.validation_framework: Optional[ValidationFramework] = None
@@ -83,7 +100,7 @@ class KubeNetLLMFramework:
         self.active_requests: Dict[str, GenerationRequest] = {}
         
         self.logger.info("KubeNetLLM Framework initialized", 
-                        config_path=config_path)
+                        config_path=config_path if not framework_config else "direct_config")
 
     async def initialize(self) -> None:
         """Initialize all framework components"""
@@ -94,30 +111,59 @@ class KubeNetLLMFramework:
         try:
             self.logger.info("Initializing KubeNetLLM components...")
             
-            # Initialize MCP broker first
-            self.mcp_broker = MCPBroker(self.config.get("mcp", {}))
-            await self.mcp_broker.start()
+            # Initialize MCP broker if not already provided
+            if self.mcp_broker is None:
+                if isinstance(self.config, dict):
+                    self.mcp_broker = MCPBroker(self.config.get("mcp", {}))
+                else:
+                    self.mcp_broker = MCPBroker(self.config.get("mcp", {}))
+                await self.mcp_broker.start()
             
             # Initialize other components
-            self.nl_interface = NaturalLanguageInterface(
-                config=self.config.get("llm", {}),
-                mcp_broker=self.mcp_broker
-            )
-            
-            self.config_generator = ConfigurationGenerator(
-                config=self.config.get("llm", {}),
-                mcp_broker=self.mcp_broker
-            )
-            
-            self.validation_framework = ValidationFramework(
-                config=self.config.get("validation", {}),
-                mcp_broker=self.mcp_broker
-            )
-            
-            self.deployment_manager = DeploymentManager(
-                config=self.config.get("deployment", {}),
-                mcp_broker=self.mcp_broker
-            )
+            if isinstance(self.config, dict):
+                # Direct configuration
+                self.nl_interface = NaturalLanguageInterface(
+                    config=self.config.get("llm", {}),
+                    mcp_broker=self.mcp_broker
+                )
+                
+                self.config_generator = ConfigurationGenerator(
+                    config=self.config.get("llm", {}),
+                    mcp_broker=self.mcp_broker,
+                    llm_provider=self.llm_provider
+                )
+                
+                self.validation_framework = ValidationFramework(
+                    config=self.config.get("validation", {}),
+                    mcp_broker=self.mcp_broker
+                )
+                
+                self.deployment_manager = DeploymentManager(
+                    config=self.config.get("deployment", {}),
+                    mcp_broker=self.mcp_broker,
+                    namespace=self.deployment_namespace
+                )
+            else:
+                # ConfigManager configuration
+                self.nl_interface = NaturalLanguageInterface(
+                    config=self.config.get("llm", {}),
+                    mcp_broker=self.mcp_broker
+                )
+                
+                self.config_generator = ConfigurationGenerator(
+                    config=self.config.get("llm", {}),
+                    mcp_broker=self.mcp_broker
+                )
+                
+                self.validation_framework = ValidationFramework(
+                    config=self.config.get("validation", {}),
+                    mcp_broker=self.mcp_broker
+                )
+                
+                self.deployment_manager = DeploymentManager(
+                    config=self.config.get("deployment", {}),
+                    mcp_broker=self.mcp_broker
+                )
             
             self.is_initialized = True
             self.logger.info("KubeNetLLM Framework initialized successfully")
@@ -127,120 +173,135 @@ class KubeNetLLMFramework:
             raise KubeNetLLMException(f"Framework initialization failed: {e}")
 
     async def generate_configuration(self, 
-                                   natural_language_input: str,
+                                   prompt: str = None,
+                                   natural_language_input: str = None,
                                    context: Optional[Dict[str, Any]] = None,
-                                   user_id: Optional[str] = None) -> GenerationResult:
+                                   user_id: Optional[str] = None) -> Dict[str, Any]:
         """
         Generate Kubernetes configuration from natural language input.
         
         Args:
+            prompt: Natural language description of requirements (alternative to natural_language_input)
             natural_language_input: Natural language description of requirements
-            context: Additional context for generation
+            context: Additional context for generation (including MCP context)
             user_id: User identifier for tracking
             
         Returns:
-            GenerationResult with configurations and validation results
+            Dictionary with configuration, validation results, and metadata
         """
         start_time = time.time()
         
-        # Create request
-        request = GenerationRequest(
-            id=f"req_{int(time.time() * 1000)}",
-            natural_language_input=natural_language_input,
-            context=context or {},
-            user_id=user_id
-        )
+        # Use prompt or natural_language_input
+        input_text = prompt or natural_language_input
+        if not input_text:
+            raise ValueError("Either prompt or natural_language_input must be provided")
         
-        self.active_requests[request.id] = request
-        
-        result = GenerationResult(
-            request_id=request.id,
-            success=False
-        )
+        # Ensure framework is initialized
+        if not self.is_initialized:
+            await self.initialize()
         
         try:
             self.logger.info("Starting configuration generation",
-                           request_id=request.id,
+                           input_text=input_text[:100] + "..." if len(input_text) > 100 else input_text,
                            user_id=user_id)
             
             # Step 1: Process natural language input
-            self.logger.info("Processing natural language input", 
-                           request_id=request.id)
+            self.logger.info("Processing natural language input")
             
             processed_requirements = await self.nl_interface.process_input(
-                natural_language_input,
-                context=request.context
+                input_text,
+                context=context or {}
             )
             
             # Step 2: Generate configurations
-            self.logger.info("Generating configurations", 
-                           request_id=request.id)
+            self.logger.info("Generating configurations")
             
             configurations = await self.config_generator.generate_configurations(
                 requirements=processed_requirements,
-                context=request.context
+                context=context or {}
             )
             
             # Step 3: Validate configurations
-            self.logger.info("Validating configurations", 
-                           request_id=request.id)
+            self.logger.info("Validating configurations")
             
             validation_results = await self.validation_framework.validate_configurations(
                 configurations=configurations,
                 requirements=processed_requirements
             )
             
-            # Step 4: Create deployment plan
-            self.logger.info("Creating deployment plan", 
-                           request_id=request.id)
-            
-            deployment_plan = await self.deployment_manager.create_deployment_plan(
-                configurations=configurations,
-                validation_results=validation_results
-            )
-            
-            # Calculate metrics
             generation_time = time.time() - start_time
             
-            # Collect metrics
-            metrics = {
+            # Return simplified result
+            return {
+                "success": True,
+                "config": configurations[0] if configurations else None,
+                "configurations": configurations,
+                "validation": validation_results,
                 "generation_time": generation_time,
-                "api_calls": (self.nl_interface.get_api_call_count() +
-                            self.config_generator.get_api_call_count()),
-                "tokens_used": (self.nl_interface.get_token_usage() +
-                              self.config_generator.get_token_usage()),
-                "validation_pass_rate": validation_results.get("pass_rate", 0),
-                "config_count": len(configurations)
+                "token_usage": getattr(self.config_generator, 'last_token_usage', {}),
+                "context_used": len(context) if context else 0
             }
             
-            # Update result
-            result.success = validation_results.get("overall_valid", False)
-            result.configurations = configurations
-            result.validation_results = validation_results
-            result.deployment_plan = deployment_plan
-            result.metrics = metrics
-            result.generation_time = generation_time
+        except Exception as e:
+            generation_time = time.time() - start_time
+            self.logger.error("Configuration generation failed", error=str(e))
             
-            self.logger.info("Configuration generation completed successfully",
-                           request_id=request.id,
-                           generation_time=generation_time,
-                           config_count=len(configurations))
+            return {
+                "success": False,
+                "error": str(e),
+                "generation_time": generation_time,
+                "config": None,
+                "configurations": [],
+                "validation": {},
+                "token_usage": {},
+                "context_used": 0
+            }
+    
+    async def deploy_configuration(self, config: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
+        """
+        Deploy a Kubernetes configuration.
+        
+        Args:
+            config: Kubernetes configuration to deploy
+            dry_run: Whether to perform a dry run only
+            
+        Returns:
+            Dictionary with deployment results
+        """
+        start_time = time.time()
+        
+        # Ensure framework is initialized
+        if not self.is_initialized:
+            await self.initialize()
+        
+        try:
+            self.logger.info("Starting configuration deployment", dry_run=dry_run)
+            
+            # Deploy using deployment manager
+            deployment_result = await self.deployment_manager.deploy_configuration(
+                config=config,
+                dry_run=dry_run
+            )
+            
+            deployment_time = time.time() - start_time
+            
+            return {
+                "success": True,
+                "deployment_result": deployment_result,
+                "deployment_time": deployment_time,
+                "dry_run": dry_run
+            }
             
         except Exception as e:
-            self.logger.error("Configuration generation failed",
-                            request_id=request.id,
-                            error=str(e))
+            deployment_time = time.time() - start_time
+            self.logger.error("Configuration deployment failed", error=str(e))
             
-            result.success = False
-            result.errors.append(str(e))
-            result.generation_time = time.time() - start_time
-            
-        finally:
-            # Clean up
-            if request.id in self.active_requests:
-                del self.active_requests[request.id]
-        
-        return result
+            return {
+                "success": False,
+                "error": str(e),
+                "deployment_time": deployment_time,
+                "dry_run": dry_run
+            }
     
     # Alias methods for compatibility with experiment runner
     async def process_requirements(self, natural_language_input: str) -> Any:
@@ -282,11 +343,11 @@ class KubeNetLLMFramework:
         """Get deployment manager component"""
         return self.deployment_manager
 
-    async def deploy_configuration(self,
+    async def deploy_configuration_legacy(self,
                                  generation_result: GenerationResult,
                                  dry_run: bool = True) -> Dict[str, Any]:
         """
-        Deploy generated configuration to Kubernetes cluster.
+        Deploy generated configuration to Kubernetes cluster (legacy method).
         
         Args:
             generation_result: Result from generate_configuration
