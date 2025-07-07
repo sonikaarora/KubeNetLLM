@@ -1,0 +1,114 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.crt
+secrets.yaml
+secrets.yml
+
+# API Keys and sensitive data
+*api_key*
+*API_KEY*
+*secret*
+*SECRET*
+*token*
+*TOKEN*
+*password*
+*PASSWORD*
+
+# Logs
+*.log
+logs/
+*.out
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Results and temporary files
+data/results/*.json
+data/results/*.txt
+data/results/*.yaml
+data/results/*.yml
+temp/
+tmp/
+*.tmp
+*.cache
+
+# Kubernetes
+*.kubeconfig
+kubeconfig
+.kube/
+*.pem
+*.crt
+*.key
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Local configuration
+config.local.yaml
+config.local.yml
+local_config.py
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Environments
+.venv
+venv/
+ENV/
+env/
+.env/ 
