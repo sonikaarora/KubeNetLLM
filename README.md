@@ -101,6 +101,23 @@ The framework measures:
 - **Validation Pass Rate**: Percentage of configurations passing validation
 - **Resource Utilization**: CPU, memory, and network usage
 
+## Citation
+
+If you use KubeNetLLM in your research or project, please cite our paper:
+
+```bibtex
+@inproceedings{kubenetllm2024,
+  title={KubeNetLLM: An Architectural Framework for Context-Aware Kubernetes Network Configuration Using LLMs and MCP},
+  author={[Authors]},
+  booktitle={Proceedings of the ACM Conference},
+  year={2024},
+  doi={10.1145/3772290.3772313},
+  url={https://doi.org/10.1145/3772290.3772313}
+}
+```
+
+**DOI**: [https://doi.org/10.1145/3772290.3772313](https://doi.org/10.1145/3772290.3772313)
+
 ## Contributing
 
 This is an experimental framework for research purposes. Contributions are welcome through pull requests.

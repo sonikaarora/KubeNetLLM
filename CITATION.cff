@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "KubeNetLLM: An Architectural Framework for Context-Aware Kubernetes Network Configuration Using LLMs and MCP"
+abstract: "An architectural framework for context-aware Kubernetes network configuration using LLMs and MCP."
+authors:
+  - family-names: "Arora"
+    given-names: "Sonika"
+type: software
+doi: 10.1145/3772290.3772313
+url: "https://github.com/sonikaarora/KubeNetLLM"
+repository-code: "https://github.com/sonikaarora/KubeNetLLM"
+license: MIT
+year: 2024
+preferred-citation:
+  type: conference-paper
+  title: "KubeNetLLM: An Architectural Framework for Context-Aware Kubernetes Network Configuration Using LLMs and MCP"
+  authors:
+    - family-names: "Arora"
+      given-names: "Sonika"
+  doi: 10.1145/3772290.3772313
+  url: "https://doi.org/10.1145/3772290.3772313"
+  year: 2024
+  collection-title: "Proceedings of the ACM Conference"
+
