@@ -1,0 +1,58 @@
+
+🎯 KubeNetLLM REAL Kubernetes Deployment Results
+================================================
+
+🔧 Cluster: [0;32mKubernetes control plane[0m is running at [0;33mhttps://127.0.0.1:55880[0m
+📊 Namespace: kubenet-experiment
+
+📊 Summary Statistics:
+- Total Scenarios: 5
+- Total Time: 9.89s
+  - Generation: 7.16s
+  - Deployment: 2.73s
+- Total Tokens: 1245
+- Real Deployment Success Rate: 100.0%
+
+📋 Individual Results:
+
+Simple Web App: ✅ SUCCESS
+  - Generation: 1.47s, Deployment: 0.55s
+  - Tokens: 248 (155 + 93)
+  - Resources Deployed: 2
+  - Pods Running: 1, Services: 1
+
+Microservices: ✅ SUCCESS
+  - Generation: 1.38s, Deployment: 0.56s
+  - Tokens: 247 (157 + 90)
+  - Resources Deployed: 2
+  - Pods Running: 1, Services: 1
+
+Multi-Environment: ✅ SUCCESS
+  - Generation: 1.43s, Deployment: 0.53s
+  - Tokens: 249 (156 + 93)
+  - Resources Deployed: 2
+  - Pods Running: 1, Services: 1
+
+Security-Focused: ✅ SUCCESS
+  - Generation: 1.47s, Deployment: 0.54s
+  - Tokens: 251 (158 + 93)
+  - Resources Deployed: 2
+  - Pods Running: 1, Services: 1
+
+Edge Cases: ✅ SUCCESS
+  - Generation: 1.42s, Deployment: 0.55s
+  - Tokens: 250 (157 + 93)
+  - Resources Deployed: 2
+  - Pods Running: 1, Services: 1
+
+
+📈 Real Kubernetes Deployment Metrics:
++------------------+--------+--------+--------+-------+--------+------+----------+
+| Scenario         | Gen    | Deploy | Total  | Tokens| Pods  | Svcs | Success  |
++------------------+--------+--------+--------+-------+--------+------+----------+
+| Simple Web App   |   1.47 |   0.55 |   2.02 |   248 |    1 |    1 |  100.0% |
+| Microservices    |   1.38 |   0.56 |   1.93 |   247 |    1 |    1 |  100.0% |
+| Multi-Environment |   1.43 |   0.53 |   1.96 |   249 |    1 |    1 |  100.0% |
+| Security-Focused |   1.47 |   0.54 |   2.01 |   251 |    1 |    1 |  100.0% |
+| Edge Cases       |   1.42 |   0.55 |   1.97 |   250 |    1 |    1 |  100.0% |
++------------------+--------+--------+--------+-------+--------+------+----------+
