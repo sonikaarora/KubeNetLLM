@@ -116,7 +116,7 @@ If you use KubeNetLLM in your research or project, please cite our paper:
 }
 ```
 
-**DOI**: [10.1109/SoutheastCon63549.2026.11476537)
+**DOI**: [10.1109/SoutheastCon63549.2026.11476537])
 
 ## Contributing
 
